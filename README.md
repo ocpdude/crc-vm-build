@@ -68,13 +68,13 @@ server crc_vm 192.168.130.11:6443 check
     `sudo systemctl enable haproxy`\
     `sudo systemctl start haproxy`
 
-18. `oc get route -n openshift-console`
+18. `crc console`
 
 19. add console path to /etc/hosts on your local machine \
-`echo $THE_VM_SERVER_IP console-openshift-console.apps-crc.testing >> /etc/hosts`
+`echo $THE_VM_SERVER_IP console-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing>> /etc/hosts`
 
-*note: substitute "$THE_VM_SERVER_IP" with the $SERVER IP address in your local /etc/hosts
+*note: substitute "$THE_VM_SERVER_IP" with the CRC VM address in your local /etc/hosts
 
 Tips: 
 Find the console : `crc console --url`
-Reprint the default credentials " `crc console --credentials`
+Reprint the default credentials : `crc console --credentials`
