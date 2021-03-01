@@ -42,8 +42,8 @@ timeout client 1m
 timeout server 1m
 
 frontend apps
-bind 192.168.11.120:80
-bind 192.168.11.120:443
+bind $SERVER:80
+bind $SERVER:443
 mode tcp
 default_backend apps
 
@@ -51,10 +51,10 @@ backend apps
 mode tcp
 option ssl-hello-chk
 balance roundrobin
-server crc_vm 192.168.130.11:443 check
+server crc_vm $CRC:443 check
 
 frontend api
-bind 192.168.11.120:6443
+bind $SERVER:6443
 mode tcp
 default_backend api
 
@@ -62,9 +62,9 @@ backend api
 mode tcp
 balance roundrobin
 option ssl-hello-chk
-server crc_vm 192.168.130.11:6443 check
+server crc_vm $CRC:6443 check
 ```
-17. `sudo setsebool -P haproxy_connect_any=1` \
+17. selinux enabled hosts only > `sudo setsebool -P haproxy_connect_any=1` \
     `sudo systemctl enable haproxy`\
     `sudo systemctl start haproxy`
 
@@ -73,8 +73,8 @@ server crc_vm 192.168.130.11:6443 check
 19. add console path to /etc/hosts on your local machine \
 `echo $THE_VM_SERVER_IP console-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing>> /etc/hosts`
 
-*note: substitute "$THE_VM_SERVER_IP" with the CRC VM address in your local /etc/hosts
+*note: substitute "$THE_VM_SERVER_IP" with the CRC VM address in your local /etc/hosts or better yet, add it to DNS or some DNSMasq config.
 
 Tips: 
-Find the console : `crc console --url`
+Find the console : `crc console --url` \
 Reprint the default credentials : `crc console --credentials`
