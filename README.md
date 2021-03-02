@@ -1,6 +1,6 @@
 ## Building Red Hat OpenShift Code Ready Container Platform w/ CentOS on VMware
 
-Demo video, see YouTube :
+Demo video, see YouTube : https://youtu.be/xoQvs8HD5xc
 
 The first step is to build your VM, for my demo I will use CentOS 7.9 minimal. I have allocated 4 vCPU, 16GB of memory and 35GB of thin disk storage. Please remember, to access the CPU settings, under "Hardware virtualization" check the box for "Expose hardware assisted virtualization to the guest OS".
 
@@ -79,10 +79,8 @@ server crc_vm $CRC:6443 check
 
 18. `crc console`
 
-19. add console path to /etc/hosts on your local machine \
-`echo $THE_VM_SERVER_IP console-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing api.crc.testing >> /etc/hosts`
-
-*note: substitute "$THE_VM_SERVER_IP" with the CRC VM address in your local /etc/hosts or better yet, add it to DNS or some DNSMasq config.
+19. add DNS entries to /etc/hosts on your local machine (optional) \
+`echo $SERVER console-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing api.crc.testing >> /etc/hosts`
 
 Tips: 
 Find the console : `crc console --url` \
