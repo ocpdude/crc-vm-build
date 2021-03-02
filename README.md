@@ -4,6 +4,8 @@ Demo video, see YouTube :
 
 The first step is to build your VM, for my demo I will use CentOS 7.9 minimal. I have allocated 4 vCPU, 16GB of memory and 35GB of thin disk storage. Please remember, to access the CPU settings, under "Hardware virtualization" check the box for "Expose hardware assisted virtualization to the guest OS".
 
+OPTIONAL: If you want the full OCP experiance, including monitoring please allocate 8vCPU and at least 16GB of memory. I recommend 8vCPU and 24GB of memory since we're dealing with a 'nested' virutal machine.
+
 ### after your virtual machinge is setup, follow these steps
 1. `sudo yum update -y ; sudo yum upgrade -y`
 2. `sudo yum install -y wget xz libvirt haproxy`
@@ -24,10 +26,17 @@ The first step is to build your VM, for my demo I will use CentOS 7.9 minimal. I
 ### setup crc and configure for remote access
 12. `crc setup`
 13. `sudo shutdown -r now`
+
+#### OPTIONAL: Adding monitoring support to CRC/OCP
+    i. Allocate more vCPU `crc config set cpus 6` 
+    ii. Allocate additional memory `crc config set memory 16384` 
+    iii. Enable the Monitoring Operator `crc config set enable-cluster-monitoring true`
+
 14. `crc start`
 
-15. `export SERVER=$(hostname --ip-address)` \
-    `export CRC=$(crc ip)`
+15. Gather IP Addresses \
+    `hostname --ip-address` \
+    `crc ip`
 
 16. `sudo vi /etc/haproxy/haproxy.cfg`
 ```
@@ -71,7 +80,7 @@ server crc_vm $CRC:6443 check
 18. `crc console`
 
 19. add console path to /etc/hosts on your local machine \
-`echo $THE_VM_SERVER_IP console-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing>> /etc/hosts`
+`echo $THE_VM_SERVER_IP console-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing api.crc.testing >> /etc/hosts`
 
 *note: substitute "$THE_VM_SERVER_IP" with the CRC VM address in your local /etc/hosts or better yet, add it to DNS or some DNSMasq config.
 
